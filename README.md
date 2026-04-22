@@ -12,7 +12,7 @@ Skladový systém s jednoduchým ovládáním. Plně funkční s produkty, pohyb
 - Produkty (Přidání/Úprava/Smazání)
 - Hlídač minimální zásoby
 ## Spuštění
-- Instalace .NET 8 SDK (https://dotnet.microsoft.com/download)
+- Instalace .NET 10 SDK (https://dotnet.microsoft.com/download)
 - Naklonování repozitáře https://github.com/Dhoni58/smart-stock.git
 - cd WarehouseSystem (cesta do složky projektu)
 - dotnet run (spuštění aplikace)
