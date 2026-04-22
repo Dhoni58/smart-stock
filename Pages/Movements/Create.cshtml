@@ -1,0 +1,36 @@
+@page
+@model WarehouseSystem.Pages.Movements.CreateModel
+@{
+    ViewData["Title"] = "Přidat pohyb";
+}
+
+<h2>Přidat skladový pohyb</h2>
+
+<form method="post" style="max-width: 500px;">
+    <div class="mb-3">
+        <label class="form-label">Produkt</label>
+        <select asp-for="Movement.ProductId"
+                asp-items="Model.ProductList"
+                class="form-select" required>
+            <option value="">-- Vyber produkt --</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Typ pohybu</label>
+        <select asp-for="Movement.Type" class="form-select" required>
+            <option value="0">Příjem</option>
+            <option value="1">Výdej</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Množství</label>
+        <input asp-for="Movement.Quantity" class="form-control"
+               type="number" min="1" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Poznámka</label>
+        <input asp-for="Movement.Note" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Uložit</button>
+    <a href="/Movements" class="btn btn-secondary">Zpět</a>
+</form>

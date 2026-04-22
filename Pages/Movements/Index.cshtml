@@ -1,0 +1,42 @@
+@page
+@model WarehouseSystem.Pages.Movements.IndexModel
+@{
+    ViewData["Title"] = "Skladové pohyby";
+}
+
+<h2>Skladové pohyby</h2>
+
+<a href="/Movements/Create" class="btn btn-primary mb-3">+ Přidat pohyb</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Produkt</th>
+            <th>Typ</th>
+            <th>Množství</th>
+            <th>Poznámka</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movement in Model.Movements)
+        {
+            <tr>
+                <td>@movement.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@movement.Product?.Name</td>
+                <td>
+                    @if (movement.Type == WarehouseSystem.Models.MovementType.Receipt)
+                    {
+                        <span class="badge bg-success">Příjem</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Výdej</span>
+                    }
+                </td>
+                <td>@movement.Quantity ks</td>
+                <td>@movement.Note</td>
+            </tr>
+        }
+    </tbody>
+</table>

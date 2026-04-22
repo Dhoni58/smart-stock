@@ -1,0 +1,40 @@
+@page
+@model WarehouseSystem.Pages.Produkty.IndexModel
+@{
+    ViewData["Title"] = "Produkty";
+}
+
+<h2>Skladové produkty</h2>
+
+<a href="/Products/Add" class="btn btn-primary mb-3">
+    + Přidat produkt
+</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Název</th>
+            <th>Cena</th>
+            <th>Na skladě</th>
+            <th>Min. zásoba</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr class="@(product.WarehouseInv <= product.MinimumInv ? "table-danger" : "")">
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@product.WarehouseInv</td>
+                <td>@product.MinimumInv</td>
+                <td>
+                    <a href="/Products/Edit/@product.Id" 
+                    class="btn btn-sm btn-warning">Upravit</a>
+                    <a href="/Products/Delete/@product.Id"
+                       class="btn btn-sm btn-danger">Smazat</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
