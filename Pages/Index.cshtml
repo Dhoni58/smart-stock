@@ -1,10 +1,45 @@
 ﻿@page
-@model IndexModel
+@model WarehouseSystem.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Sklad";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Přehled skladu</h2>
+
+@if (Model.LowStockProducts.Any())
+{
+    <div class="alert alert-danger">
+        <strong>Pozor!</strong> Následující produky jsou pod minimálním stavem:
+    </div>
+
+    <table class="table table-danger">
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Zásoba</th>
+                <th>Minimum<th/>
+                <th>Chybí</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.LowStockProducts)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.WarehouseInv ks</td>
+                    <td>@product.MinimumInv ks</td>
+                    <td>@(product.MinimumInv - product.WarehouseInv) ks</td>
+                    <td>
+                        <a href="/Products/Edit/@product.Id" class="btn btn-sm btn-warning">Upravit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-success">
+        Všechny produkty na dostatečné zásobě.
+    </div>
+}
