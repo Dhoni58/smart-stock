@@ -1,5 +1,5 @@
 @page
-@model WarehouseSystem.Pages.Produkty.IndexModel
+@model WarehouseSystem.Pages.Products.IndexModel
 @{
     ViewData["Title"] = "Produkty";
 }
@@ -10,10 +10,33 @@
     + Přidat produkt
 </a>
 
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-5">
+        <input type="text" name="search" value="@Model.Search"
+               class="form-control" placeholder="Hledat produkt..." />
+    </div>
+    <div class="col-md-4">
+        <select name="categoryId" class="form-select">
+            <option value="">-- Všechny kategorie --</option>
+            @foreach (var category in Model.CategoryList)
+            {
+                <option value="@category.Value"
+                        selected="@(category.Value == Model.CategoryId.ToString())">
+                    @category.Text
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-secondary w-100">Filtrovat</button>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>Název</th>
+            <th>Kategorie</th>
             <th>Cena</th>
             <th>Na skladě</th>
             <th>Min. zásoba</th>
@@ -25,16 +48,23 @@
         {
             <tr class="@(product.WarehouseInv <= product.MinimumInv ? "table-danger" : "")">
                 <td>@product.Name</td>
+                <td>@(product.Category?.Name ?? "—")</td>
                 <td>@product.Price.ToString("C")</td>
                 <td>@product.WarehouseInv</td>
                 <td>@product.MinimumInv</td>
                 <td>
                     <a href="/Products/Edit/@product.Id" 
                     class="btn btn-sm btn-warning">Upravit</a>
+                </td>
+                <td>
                     <a href="/Products/Delete/@product.Id"
-                       class="btn btn-sm btn-danger">Smazat</a>
+                    class="btn btn-sm btn-danger">Smazat</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@if (!Model.Products.Any())
+{
+    <p class="text-muted">Žádné produkty neodpovídají zadaným filtrům.</p>
+}

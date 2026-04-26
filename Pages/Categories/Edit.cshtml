@@ -1,0 +1,21 @@
+@page "{id:int}"
+@model WarehouseSystem.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Upravit kategorii";
+}
+
+<h2>Upravit kategorii</h2>
+
+<form method="post" style="max-width: 500px;">
+    <input type="hidden" asp-for="Category.Id" />
+    <div class="mb-3">
+        <label class="form-label">Název</label>
+        <input asp-for="Category.Name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Popis</label>
+        <input asp-for="Category.Description" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Uložit změny</button>
+    <a href="/Categories" class="btn btn-secondary">Zpět</a>
+</form>

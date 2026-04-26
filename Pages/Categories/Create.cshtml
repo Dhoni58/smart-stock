@@ -1,0 +1,20 @@
+@page
+@model WarehouseSystem.Pages.Categories.CreateModel
+@{
+    ViewData["Title"] = "Přidat kategorii";
+}
+
+<h2>Přidat kategorii</h2>
+
+<form method="post" style="max-width: 500px;">
+    <div class="mb-3">
+        <label class="form-label">Název</label>
+        <input asp-for="Category.Name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Popis</label>
+        <input asp-for="Category.Description" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Uložit</button>
+    <a href="/Categories" class="btn btn-secondary">Zpět</a>
+</form>

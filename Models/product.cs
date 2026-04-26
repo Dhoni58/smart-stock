@@ -9,4 +9,23 @@ public class Product
     public int WarehouseInv { get; set; }
     public int MinimumInv { get; set; }
     public DateTime Createdat { get; set; } = DateTime.Now;
+
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
+
+
+public bool CanIssue(int quantity) =>
+    WarehouseInv >= quantity;
+
+/// <summary>
+/// Aplikuje pohyb a aktualizuje stav skladu
+/// Při výdeji se ověřří dostupnost zboží.
+/// </summary>
+public void ApplyMovement(MovementType type, int quantity)
+    {
+        if (type == MovementType.Receipt)
+            WarehouseInv += quantity;
+        else
+            WarehouseInv -= quantity;
+    }
 }
