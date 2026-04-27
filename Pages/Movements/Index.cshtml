@@ -15,6 +15,7 @@
             <th>Produkt</th>
             <th>Typ</th>
             <th>Množství</th>
+            <th>Vytvořil</th>
             <th>Poznámka</th>
         </tr>
     </thead>
@@ -35,6 +36,7 @@
                     }
                 </td>
                 <td>@movement.Quantity ks</td>
+                <td>@(movement.CreatedByUser?.Name ?? "-")</td>
                 <td>@movement.Note</td>
             </tr>
         }

@@ -33,7 +33,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Kategorie</a>
                         </li>
+                        @if (Context.Session.GetString("UserRole") == "Vedouci")
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Uživatelé</a>
+                        </li>
+                        }
                     </ul>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="navbar-text me-3">
+                        @Context.Session.GetString("UserName")
+                    </span>
+                    <a href="/Logout" class="btn btn-sm btn-outline-danger">Odhlásit</a>
                 </div>
             </div>
         </nav>

@@ -3,25 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 
-namespace WarehouseSystem.Pages.Movements;
+namespace WarehouseSystem.Pages.Users;
 
 public class IndexModel : PageModel
 {
     private readonly AppDbContext _db;
-    
+
     public IndexModel(AppDbContext db)
     {
         _db = db;
     }
 
-    public List<WarehouseMovement> Movements { get; set; } = new();
+    public List<User> Users { get; set; } = new();
 
     public async Task OnGetAsync()
     {
-        Movements = await _db.WarehouseMovements
-            .Include(m => m.Product)
-            .Include( m => m.CreatedByUser)
-            .OrderByDescending(m => m.CreatedAt)
+        Users = await _db.Users
+            .OrderBy(u => u.Name)
             .ToListAsync();
     }
 }

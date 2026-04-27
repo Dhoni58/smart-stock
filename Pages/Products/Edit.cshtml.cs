@@ -40,7 +40,17 @@ public class EditModel : PageModel
             await LoadCategoryListAsync();
             return Page();
         }
-        _db.Products.Update(Product);
+
+        var product = await _db.Products.FindAsync(Product.Id);
+
+        if (product == null)
+            return RedirectToPage("/Products/Index");
+        
+        product.Name = Product.Name;
+        product.Description = Product.Description;
+        product.Price = Product.Price;
+        product.MinimumInv = Product.MinimumInv;
+        product.CategoryId = Product.CategoryId;
         await _db.SaveChangesAsync();
 
         return RedirectToPage("/Products/Index");

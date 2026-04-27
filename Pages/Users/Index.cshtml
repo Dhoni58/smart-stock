@@ -1,0 +1,43 @@
+@page
+@model WarehouseSystem.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = "Správa uživatelů";
+}
+
+<h2>Správa uživatelů</h2>
+
+<a href="/Users/Create" class="btn btn-primary mb-3">+ Přidat uživatele</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Jméno</th>
+            <th>Role</th>
+            <th>Stav</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Role</td>
+                <td>
+                    @if (user.IsActive)
+                    {
+                        <span class="badge bg-success">Aktivní</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Neaktivní</span>
+                    }
+                </td>
+                <td>
+                    <a href="/Users/Edit/@user.Id" class="btn btn-sm btn-warning">Upravit</a>
+                    <a href="/Users/Delete/@user.Id" class="btn btn-sm btn-danger">Smazat</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

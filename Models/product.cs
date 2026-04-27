@@ -6,7 +6,7 @@ public class Product
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public decimal Price { get; set; }
-    public int WarehouseInv { get; set; }
+    public int WarehouseInv { get; set; } = 0;
     public int MinimumInv { get; set; }
     public DateTime Createdat { get; set; } = DateTime.Now;
 

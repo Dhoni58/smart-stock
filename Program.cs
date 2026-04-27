@@ -1,17 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
+using WarehouseSystem.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddFolderApplicationModelConvention(
+        "/",
+        model => model.Filters.Add(new AuthFilter()));
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration
                 .GetConnectionString("Default")
     ));
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(8);
+    options.Cookie.HttpOnly = true;
+});
 
 var app = builder.Build();
 
@@ -22,6 +34,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSession();
 
 app.UseHttpsRedirection();
 
@@ -37,6 +50,19 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
+
+    if (!db.Users.Any())
+    {
+        var users = new List<User>
+        {
+            new User { Name = "Jan Novák", Pin = "12345", Role = UserRole.Vedouci },
+            new User { Name = "Pavel Dvořák", Pin = "11111", Role = UserRole.Skladnik },
+            new User { Name = "Martin Král", Pin = "22222", Role = UserRole.Skladnik },
+        };
+
+        db.Users.AddRange(users);
+        db.SaveChanges();
+    }
 
     if (!db.Products.Any())
     {

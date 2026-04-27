@@ -1,0 +1,46 @@
+@page "{id:int}"
+@model WarehouseSystem.Pages.Users.EditModel
+@{
+    ViewData["Title"] = "Upravit uživatele";
+}
+
+<h2>Upravit uživatele</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="mb-0">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form method="post" style="max-width: 500px;">
+    <input type="hidden" asp-for="User.Id" />
+    <div class="mb-3">
+        <label class="form-label">Jméno</label>
+        <input asp-for="User.Name" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Nový PIN (5 číslic, nech prázdné pro zachování)</label>
+        <input asp-for="NewPin" class="form-control"
+               type="password" maxlength="5" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Role</label>
+        <select asp-for="User.Role" class="form-select">
+            <option value="0">Skladník</option>
+            <option value="1">Vedoucí</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stav</label>
+        <select asp-for="User.IsActive" class="form-select">
+            <option value="true">Aktivní</option>
+            <option value="false">Neaktivní</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Uložit změny</button>
+    <a href="/Users" class="btn btn-secondary">Zpět</a>
+</form>

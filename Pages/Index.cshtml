@@ -19,7 +19,6 @@
                 <th>Zásoba</th>
                 <th>Minimum</th>
                 <th>Chybí</th>
-                <th> </th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +28,7 @@
                     <td>@product.Name</td>
                     <td>@product.WarehouseInv ks</td>
                     <td>@product.MinimumInv ks</td>
-                    <td>@(product.MinimumInv - product.WarehouseInv) ks</td>
-                    <td>
-                        <a href="/Products/Edit/@product.Id" class="btn btn-sm btn-warning">Upravit</a>
-                    </td>
+                    <td>@(product.MinimumInv - product.WarehouseInv) ks</td>                   
                 </tr>
             }
         </tbody>

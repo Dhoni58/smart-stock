@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 
+
 namespace WarehouseSystem.Pages.Movements;
 
 public class CreateModel : PageModel
@@ -48,6 +49,9 @@ public class CreateModel : PageModel
             await LoadProductListAsync();
             return Page();
         }
+
+        //Tvůrce pohybu
+        Movement.CreatedByUserId = HttpContext.Session.GetInt32("UserId");
 
         product.ApplyMovement(Movement.Type, Movement.Quantity);
         _db.WarehouseMovements.Add(Movement);
