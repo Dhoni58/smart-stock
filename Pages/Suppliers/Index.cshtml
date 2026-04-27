@@ -1,0 +1,51 @@
+@page
+@model WarehouseSystem.Pages.Suppliers.IndexModel
+@{
+    ViewData["Title"] = "Dodavatelé";
+}
+
+<h2>Dodavatelé</h2>
+
+<a href="/Suppliers/Create" class="btn btn-primary mb-3">+ Přidat dodavatele</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>IČO</th>
+            <th>Název</th>
+            <th>Adresa</th>
+            <th>Kontaktní osoba</th>
+            <th>Telefon</th>
+            <th>Stav</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var supplier in Model.Suppliers)
+        {
+            <tr>
+                <td>@supplier.Ico</td>
+                <td>@supplier.Name</td>
+                <td>@supplier.Address</td>
+                <td>@(supplier.ContactPerson ?? "—")</td>
+                <td>@(supplier.Phone ?? "—")</td>
+                <td>
+                    @if (supplier.IsActive)
+                    {
+                        <span class="badge bg-success">Aktivní</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Neaktivní</span>
+                    }
+                </td>
+                <td>
+                    <a href="/Suppliers/Edit/@supplier.Id" class="btn btn-sm btn-warning">Upravit</a>
+                </td>
+                <td>
+                    <a href="/Suppliers/Delete/@supplier.Id" class="btn btn-sm btn-danger">Smazat</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

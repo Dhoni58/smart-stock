@@ -2,10 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 using WarehouseSystem.Filters;
+using WarehouseSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient<AresService>();
+builder.Services.AddControllers();
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
@@ -27,6 +30,7 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
+    app.MapControllers();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

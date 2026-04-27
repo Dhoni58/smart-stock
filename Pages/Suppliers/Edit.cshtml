@@ -1,0 +1,61 @@
+@page "{id:int}"
+@model WarehouseSystem.Pages.Suppliers.EditModel
+@{
+    ViewData["Title"] = "Upravit dodavatele";
+}
+
+<h2>Upravit dodavatele</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="mb-0">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div style="max-width: 600px;">
+    <form method="post">
+        <input type="hidden" asp-for="Supplier.Id" />
+        <div class="mb-3">
+            <label class="form-label">IČO</label>
+            <input asp-for="Supplier.Ico" class="form-control" readonly />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Název firmy</label>
+            <input asp-for="Supplier.Name" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Adresa</label>
+            <input asp-for="Supplier.Address" class="form-control" />
+        </div>
+        <hr />
+        <div class="mb-3">
+            <label class="form-label">Kontaktní osoba</label>
+            <input asp-for="Supplier.ContactPerson" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Telefon</label>
+            <input asp-for="Supplier.Phone" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Supplier.Email" class="form-control" type="email" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Poznámka</label>
+            <textarea asp-for="Supplier.Note" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stav</label>
+            <select asp-for="Supplier.IsActive" class="form-select">
+                <option value="true">Aktivní</option>
+                <option value="false">Neaktivní</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Uložit změny</button>
+        <a href="/Suppliers" class="btn btn-secondary">Zpět</a>
+    </form>
+</div>

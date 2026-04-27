@@ -1,0 +1,96 @@
+@page
+@model WarehouseSystem.Pages.Suppliers.CreateModel
+@{
+    ViewData["Title"] = "Přidat dodavatele";
+}
+
+<h2>Přidat dodavatele</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="mb-0">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div style="max-width: 600px;">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h6 class="card-title">Vyhledat v ARES podle IČO</h6>
+            <div class="input-group">
+                <input type="text" id="icoInput" class="form-control"
+                       placeholder="Zadejte IČO..." maxlength="8" />
+                <button type="button" id="aresBtn" class="btn btn-secondary">
+                    Vyhledat
+                </button>
+            </div>
+            <div id="aresStatus" class="mt-2 small"></div>
+        </div>
+    </div>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">IČO</label>
+            <input asp-for="Supplier.Ico" class="form-control" id="icoField" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Název firmy</label>
+            <input asp-for="Supplier.Name" class="form-control" id="nameField" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Adresa</label>
+            <input asp-for="Supplier.Address" class="form-control" id="addressField" />
+        </div>
+        <hr />
+        <div class="mb-3">
+            <label class="form-label">Kontaktní osoba</label>
+            <input asp-for="Supplier.ContactPerson" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Telefon</label>
+            <input asp-for="Supplier.Phone" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input asp-for="Supplier.Email" class="form-control" type="email" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Poznámka</label>
+            <textarea asp-for="Supplier.Note" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Uložit</button>
+        <a href="/Suppliers" class="btn btn-secondary">Zpět</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('aresBtn').addEventListener('click', async () => {
+            const ico = document.getElementById('icoInput').value.trim();
+            const status = document.getElementById('aresStatus');
+
+            if (ico.length !== 8) {
+                status.innerHTML = '<span class="text-danger">IČO musí mít 8 číslic.</span>';
+                return;
+            }
+
+            status.innerHTML = '<span class="text-muted">Vyhledávám...</span>';
+
+            try {
+                const response = await fetch(`/api/ares/${ico}`);
+                if (!response.ok) throw new Error();
+
+                const data = await response.json();
+                document.getElementById('icoField').value = data.ico;
+                document.getElementById('nameField').value = data.name;
+                document.getElementById('addressField').value = data.address;
+                status.innerHTML = '<span class="text-success">Firma nalezena a vyplněna.</span>';
+            } catch {
+                status.innerHTML = '<span class="text-danger">Firma nenalezena. Zkontrolujte IČO.</span>';
+            }
+        });
+    </script>
+}
