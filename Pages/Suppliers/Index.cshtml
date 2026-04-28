@@ -8,6 +8,11 @@
 
 <a href="/Suppliers/Create" class="btn btn-primary mb-3">+ Přidat dodavatele</a>
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -41,11 +46,72 @@
                 </td>
                 <td>
                     <a href="/Suppliers/Edit/@supplier.Id" class="btn btn-sm btn-warning">Upravit</a>
-                </td>
-                <td>
-                    <a href="/Suppliers/Delete/@supplier.Id" class="btn btn-sm btn-danger">Smazat</a>
+                    @if (supplier.WarehouseMovements.Any())
+                    {
+                        <button type="button" class="btn btn-sm btn-danger"
+                        onclick="cantDelete('@supplier.Name')">
+                            Smazat
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-sm btn-danger"
+                        onclick="confirmDelete(@supplier.Id, '@supplier.Name')">
+                            Smazat
+                        </button>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div class="modal fade" id="cantDeleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nelze smazat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Dodavatel <strong id="cantDeleteName"></strong> má pohyby v historii a nelze ho smazat. Místo smazání ho deaktivuj.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat dodavatele</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš smazat dodavatele <strong id="deleteSupplierName"></strong>?
+                Tuto akci nelze vrátit zpět.
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <button type="submit" class="btn btn-danger">Smazat</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+    <script>
+        function cantDelete(name) {
+            document.getElementById('cantDeleteName').textContent = name;
+            new bootstrap.Modal(document.getElementById('cantDeleteModal')).show();
+        }
+
+        function confirmDelete(id, name) {
+            document.getElementById('deleteSupplierName').textContent = name;
+            document.getElementById('deleteForm').action = `/Suppliers/Delete/${id}`;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+    }
+</div>

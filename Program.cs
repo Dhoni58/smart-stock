@@ -3,18 +3,22 @@ using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 using WarehouseSystem.Filters;
 using WarehouseSystem.Services;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient<AresService>();
 builder.Services.AddControllers();
+builder.Services.AddScoped<ExportService>();
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
         "/",
         model => model.Filters.Add(new AuthFilter()));
 });
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(

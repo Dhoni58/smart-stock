@@ -26,6 +26,6 @@ public class CreateModel : PageModel
         _db.Categories.Add(Category);
         await _db.SaveChangesAsync();
 
-        return RedirectToPage("/Caregories/Index");
+        return RedirectToPage("/Categories/Index");
     }
 }

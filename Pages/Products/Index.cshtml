@@ -6,9 +6,17 @@
 
 <h2>Skladové produkty</h2>
 
-<a href="/Products/Add" class="btn btn-primary mb-3">
-    + Přidat produkt
-</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="/Products/Create" class="btn btn-primary">+ Přidat produkt</a>
+    <div class="d-flex gap-2">
+        <a href="/api/export/products/excel" class="btn btn-outline-success btn-sm" title="Export do Excelu">
+            <img src="https://img.icons8.com/color/24/microsoft-excel-2019.png" />
+        </a>
+        <a href="/api/export/products/pdf" class="btn btn-outline-danger btn-sm" title="Export do PDF">
+            <img src="https://img.icons8.com/color/24/pdf.png" />
+        </a>
+    </div>
+</div>
 
 <form method="get" class="row g-3 mb-4">
     <div class="col-md-5">
@@ -55,15 +63,44 @@
                 <td>
                     <a href="/Products/Edit/@product.Id" 
                     class="btn btn-sm btn-warning">Upravit</a>
-                </td>
-                <td>
-                    <a href="/Products/Delete/@product.Id"
-                    class="btn btn-sm btn-danger">Smazat</a>
+                    <button type="button" class="btn btn-sm btn-danger"
+                    onclick="confirmDelete(@product.Id, '@product.Name')"> 
+                        Smazat
+                    </button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat produkt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš smazat produkt <strong id="deleteProductName"></strong>?
+                Tuto akci nelze vrátit zpět.
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <button type="submit" class="btn btn-danger">Smazat</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script>
+            function confirmDelete(id, name) {
+                document.getElementById('deleteProductName').textContent = name;
+                document.getElementById('deleteForm').action = `/Products/Delete/${id}`;
+                new bootstrap.Modal(document.getElementById('deleteModal')).show();
+            }
+        </script>
+    }
+</div>
 @if (!Model.Products.Any())
 {
     <p class="text-muted">Žádné produkty neodpovídají zadaným filtrům.</p>

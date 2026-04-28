@@ -34,6 +34,7 @@ public class IndexModel : PageModel
 
         if (!string.IsNullOrWhiteSpace(Search))
         {
+            // Převod velikosti písmen pro jednodušší hledání
             var searchLower = Search.ToLower();
             query = query.Where(p => 
                  p.Name.ToLower().Contains(searchLower) ||

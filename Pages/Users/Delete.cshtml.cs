@@ -16,17 +16,6 @@ public class DeleteModel : PageModel
 
     public User User { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int id)
-    {
-        var user = await _db.Users.FindAsync(id);
-
-        if (user == null)
-            return RedirectToPage("/Users/Index");
-
-        User = user;
-        return Page();
-    }
-
     public async Task<IActionResult> OnPostAsync(int id)
     {
         var user = await _db.Users.FindAsync(id);

@@ -28,9 +28,18 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Typ pohybu</label>
-        <select asp-for="Movement.Type" class="form-select" required>
+        <select name="Movement.Type" class="form-select" id="movementType" required>
+            <option value="">-- Vyber typ pohybu --</option>
             <option value="0">Příjem</option>
             <option value="1">Výdej</option>
+        </select>
+    </div>
+    <div class="mb-3" id="supplierField" style="display:none;">
+        <label class="form-label">Dodavatel</label>
+        <select asp-for="Movement.SupplierId"
+                asp-items="Model.SupplierList"
+                class="form-select">
+            <option value="">-- Vyber dodavatele --</option>
         </select>
     </div>
     <div class="mb-3">
@@ -48,11 +57,22 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function() {
+        //Hledání produktu
         $('.select2-product').select2({
         placeholder: 'Hledat produkt...',
         allowClear: true,
         width: '100%',
         theme: 'bootstrap-5'
+        });
+        //Dodavvatelé při přijmu
+        var movementType = document.getElementById('movementType');
+        var supplierField = document.getElementById('supplierField');
+        
+        movementType.addEventListener('change', function() {
+                console.log('Hodnota:', this.value);
+                supplierField.style.display = this.value === '0' ? 'block' : 'none';
+            });
         });
     </script>
 }

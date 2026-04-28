@@ -35,9 +35,72 @@
                 </td>
                 <td>
                     <a href="/Users/Edit/@user.Id" class="btn btn-sm btn-warning">Upravit</a>
-                    <a href="/Users/Delete/@user.Id" class="btn btn-sm btn-danger">Smazat</a>
+                    @if (user.WarehouseMovements.Any())
+                    {
+                        <button type="button" class="btn btn-sm btn-danger"
+                        onclick="cantDelete('@user.Name')">
+                            Smazat
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-sm btn-danger"
+                        onclick="confirmDelete(@user.Id, '@user.Name')">
+                            Smazat
+                        </button>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div class="modal fade" id="cantDeleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nelze smazat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Uživatel <strong id="cantDeleteName"></strong> má v pohyby v historii a nelze ho smazat. Místo smazání deaktivuj.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat uživatele</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš smazat uživatele <strong id="deleteUserName"></strong>?
+                Tuto akci nelze vrátit zpět.
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <button type="submit" class="btn btn-danger">Smazat</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+    <script>
+         function cantDelete(name) {
+            document.getElementById('cantDeleteName').textContent = name;
+            new bootstrap.Modal(document.getElementById('cantDeleteModal')).show();
+        }
+
+        function confirmDelete(id, name) {
+            document.getElementById('deleteUserName').textContent = name;
+            document.getElementById('deleteForm').action = `/Users/Delete/${id}`;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+    }
+</div>

@@ -12,4 +12,6 @@ public class Supplier
     public string? Note { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public List<WarehouseMovement> WarehouseMovements { get; set; } = new();
 }

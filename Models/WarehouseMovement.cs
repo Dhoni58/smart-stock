@@ -16,7 +16,11 @@ public class WarehouseMovement
     public string? Note { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    // Audit zaměstnanců
+    // Pohyby podle zaměstnance
     public int? CreatedByUserId { get; set; }
     public User? CreatedByUser { get; set; }
+
+    // Příjem = dodavatel
+    public int? SupplierId { get; set; }
+    public Supplier? Supplier { get; set; }
 }

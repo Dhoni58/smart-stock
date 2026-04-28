@@ -6,7 +6,17 @@
 
 <h2>Skladové pohyby</h2>
 
-<a href="/Movements/Create" class="btn btn-primary mb-3">+ Přidat pohyb</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="/Movements/Create" class="btn btn-primary">+ Přidat pohyb</a>
+    <div class="d-flex gap-2">
+        <a href="/api/export/movements/excel" class="btn btn-outline-success btn-sm" title="Export do Excelu">
+            <img src="https://img.icons8.com/color/24/microsoft-excel-2019.png" />
+        </a>
+        <a href="/api/export/movements/pdf" class="btn btn-outline-danger btn-sm" title="Export do PDF">
+            <img src="https://img.icons8.com/color/24/pdf.png" />
+        </a>
+    </div>
+</div>
 
 <table class="table">
     <thead>
@@ -15,6 +25,7 @@
             <th>Produkt</th>
             <th>Typ</th>
             <th>Množství</th>
+            <th>Dodavatel</th>
             <th>Vytvořil</th>
             <th>Poznámka</th>
         </tr>
@@ -36,6 +47,7 @@
                     }
                 </td>
                 <td>@movement.Quantity ks</td>
+                <td>@(movement.Supplier?.Name ?? "-")</td>
                 <td>@(movement.CreatedByUser?.Name ?? "-")</td>
                 <td>@movement.Note</td>
             </tr>

@@ -17,19 +17,6 @@ public class DeleteModel : PageModel
 
     public Category Category { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int id)
-    {
-        var category = await _db.Categories
-            .Include(c => c.Products)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        if (category == null)
-            return RedirectToPage("/Categories/Index");
-
-        Category = category;
-        return Page();
-    }
-
     public async Task<IActionResult> OnPostAsync(int id)
     {
         var category = await _db.Categories

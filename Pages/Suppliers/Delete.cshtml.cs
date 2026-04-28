@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 
@@ -16,26 +17,22 @@ public class DeleteModel : PageModel
 
     public Supplier Supplier { get; set; } = new();
 
-    public async Task<IActionResult> OnGetAsync(int id)
-    {
-        var supplier = await _db.Suppliers.FindAsync(id);
-
-        if (supplier == null)
-            return RedirectToPage("/Suppliers/Index");
-
-        Supplier = supplier;
-        return Page();
-    }
-
     public async Task<IActionResult> OnPostAsync(int id)
     {
-        var supplier = await _db.Suppliers.FindAsync(id);
-
-        if (supplier != null)
+        var supplier = await _db.Suppliers
+            .Include(s => s.WarehouseMovements)
+            .FirstOrDefaultAsync(s => s.Id == id);
+        
+        if (supplier == null)
+            return RedirectToPage("/Suppliers/Index");
+        
+        if (supplier.WarehouseMovements.Any())
         {
-            _db.Suppliers.Remove(supplier);
-            await _db.SaveChangesAsync();
+            TempData["Error"] = $"Nelze smazal dodavatele {supplier.Name} - {supplier.WarehouseMovements.Count} pohybů v historii. Místo smazání pouze deaktivuj.";
         }
+
+        _db.Suppliers.Remove(supplier);
+        await _db.SaveChangesAsync();
 
         return RedirectToPage("/Suppliers/Index");
     }

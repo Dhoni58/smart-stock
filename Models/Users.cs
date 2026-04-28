@@ -13,4 +13,5 @@ public class User
     public string Pin { get; set; } = string.Empty;
     public UserRole Role { get; set; }
     public bool IsActive { get; set; } = true;
+    public List<WarehouseMovement> WarehouseMovements { get; set; } = new();
 }

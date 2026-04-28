@@ -23,6 +23,7 @@ public class CreateModel : PageModel
     public WarehouseMovement Movement { get; set; } = new();
 
     public SelectList ProductList { get; set; } = null!;
+    public SelectList SupplierList { get; set; } = null!;
 
     public async Task OnGetAsync()
     {
@@ -50,6 +51,9 @@ public class CreateModel : PageModel
             return Page();
         }
 
+        if (Movement.Type == MovementType.Issue)
+            Movement.SupplierId = null;
+
         //Tvůrce pohybu
         Movement.CreatedByUserId = HttpContext.Session.GetInt32("UserId");
 
@@ -64,5 +68,11 @@ public class CreateModel : PageModel
     {
         var Products = await _db.Products.ToListAsync();
         ProductList = new SelectList(Products, "Id", "Name");
+
+        var suppliers = await _db.Suppliers
+            .Where(s => s.IsActive)
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+        SupplierList = new SelectList(suppliers, "Id", "Name");
     }
 }

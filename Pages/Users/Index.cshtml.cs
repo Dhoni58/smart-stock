@@ -19,6 +19,7 @@ public class IndexModel : PageModel
     public async Task OnGetAsync()
     {
         Users = await _db.Users
+            .Include(u => u.WarehouseMovements)
             .OrderBy(u => u.Name)
             .ToListAsync();
     }

@@ -20,7 +20,8 @@ public class IndexModel : PageModel
     {
         Movements = await _db.WarehouseMovements
             .Include(m => m.Product)
-            .Include( m => m.CreatedByUser)
+            .Include(m => m.CreatedByUser)
+            .Include(m => m.Supplier)
             .OrderByDescending(m => m.CreatedAt)
             .ToListAsync();
     }
