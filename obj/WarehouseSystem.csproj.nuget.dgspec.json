@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\honza\\WarehouseSystem\\WarehouseSystem.csproj": {}
+    "C:\\Users\\honza\\smart-stock\\WarehouseSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\honza\\WarehouseSystem\\WarehouseSystem.csproj": {
+    "C:\\Users\\honza\\smart-stock\\WarehouseSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\honza\\WarehouseSystem\\WarehouseSystem.csproj",
+        "projectUniqueName": "C:\\Users\\honza\\smart-stock\\WarehouseSystem.csproj",
         "projectName": "WarehouseSystem",
-        "projectPath": "C:\\Users\\honza\\WarehouseSystem\\WarehouseSystem.csproj",
+        "projectPath": "C:\\Users\\honza\\smart-stock\\WarehouseSystem.csproj",
         "packagesPath": "C:\\Users\\honza\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\honza\\WarehouseSystem\\obj\\",
+        "outputPath": "C:\\Users\\honza\\smart-stock\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\honza\\AppData\\Roaming\\NuGet\\NuGet.Config"

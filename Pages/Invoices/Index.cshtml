@@ -1,0 +1,98 @@
+@page
+@model WarehouseSystem.Pages.Invoices.IndexModel
+@{
+    ViewData["Title"] = "Faktury";
+}
+
+<h2>Faktury</h2>
+
+<a href="/Invoices/Create" class="btn btn-primary mb-3">+ Vytvořit fakturu</a>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Číslo faktury</th>
+            <th>Typ</th>
+            <th>Jméno</th>
+            <th>Celkem s DPH</th>
+            <th>Datum vystavení</th>
+            <th>Datum splatnosti</th>
+            <th>Vytvořil</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model.Invoices)
+        {
+            <tr>
+                <td>@invoice.InvoiceNumber</td>
+                <td>
+                    @if (invoice.Type == WarehouseSystem.Models.InvoiceType.Received)
+                    {
+                        <span class="badge bg-primary">Přijatá</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Vydaná</span>
+                    }
+                </td>
+                <td>
+                    @(invoice.Type == WarehouseSystem.Models.InvoiceType.Received
+                        ? invoice.Supplier?.Name ?? "—"
+                        : invoice.CustomerName ?? "—")
+                </td>
+                <td>@invoice.Items.Sum(i => i.TotalWithVat).ToString("N2") Kč</td>
+                <td>@invoice.IssueDate.ToString("dd.MM.yyyy")</td>
+                <td>@invoice.DueDate.ToString("dd.MM.yyyy")</td>
+                <td>@(invoice.CreatedByUser?.Name ?? "—")</td>
+                <td>
+                    <a href="/api/export/invoices/@invoice.Id/pdf"
+                       class="btn btn-sm btn-outline-danger" title="Stáhnout PDF">
+                        <img src="https://img.icons8.com/color/20/pdf.png" />
+                    </a>
+                    <button type="button" class="btn btn-sm btn-danger"
+                            onclick="confirmDelete(@invoice.Id, '@invoice.InvoiceNumber')">
+                        Smazat
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal: potvrdit smazání -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat fakturu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš smazat fakturu <strong id="deleteInvoiceNumber"></strong>?
+                Tuto akci nelze vrátit zpět.
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post">
+                    <button type="submit" class="btn btn-danger">Smazat</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id, number) {
+            document.getElementById('deleteInvoiceNumber').textContent = number;
+            document.getElementById('deleteForm').action = `/Invoices/Delete/${id}`;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+}

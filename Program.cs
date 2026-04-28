@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient<AresService>();
 builder.Services.AddControllers();
+builder.Services.AddScoped<InvoiceNumberService>();
 builder.Services.AddScoped<ExportService>();
 builder.Services.AddRazorPages(options =>
 {

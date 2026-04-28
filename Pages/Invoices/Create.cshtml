@@ -1,0 +1,174 @@
+@page
+@model WarehouseSystem.Pages.Invoices.CreateModel
+@{
+    ViewData["Title"] = "Vytvořit fakturu";
+}
+
+<h2>Vytvořit fakturu</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="mb-0">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form method="post" style="max-width: 700px;">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Typ faktury</label>
+            <select asp-for="Invoice.Type" class="form-select" id="invoiceType">
+                <option value="0">Přijatá (od dodavatele)</option>
+                <option value="1">Vydaná (pro zákazníka)</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Datum splatnosti</label>
+            <input asp-for="Invoice.DueDate" class="form-control" type="date" />
+        </div>
+    </div>
+
+    <!-- Přijatá faktura — výběr dodavatele -->
+    <div class="mb-3" id="supplierField">
+        <label class="form-label">Dodavatel</label>
+        <select asp-for="Invoice.SupplierId"
+                asp-items="Model.SupplierList"
+                class="form-select">
+            <option value="">-- Vyber dodavatele --</option>
+        </select>
+    </div>
+
+    <!-- Vydaná faktura — údaje zákazníka -->
+    <div id="customerField" style="display:none;">
+        <div class="mb-3">
+            <label class="form-label">Jméno zákazníka</label>
+            <input asp-for="Invoice.CustomerName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Adresa zákazníka</label>
+            <input asp-for="Invoice.CustomerAddress" class="form-control" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Poznámka</label>
+        <textarea asp-for="Invoice.Note" class="form-control" rows="2"></textarea>
+    </div>
+
+    <hr />
+    <h5>Položky faktury</h5>
+
+    <div id="itemsContainer">
+        <div class="row g-2 mb-2 item-row">
+            <div class="col-md-5">
+                <select name="Items[0].ProductId" class="form-select select2-product" required>
+                    <option value="">-- Vyber produkt --</option>
+                    @foreach (var p in Model.Products)
+                    {
+                        <option value="@p.Id" data-price="@p.Price">@p.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input name="Items[0].Quantity" type="number" min="1"
+                       class="form-control" placeholder="Množství" required />
+            </div>
+            <div class="col-md-3">
+                <input name="Items[0].UnitPrice" type="number" step="0.01"
+                       class="form-control" placeholder="Cena za kus" required />
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-outline-danger w-100"
+                        onclick="removeItem(this)">Odebrat</button>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-primary mb-3" onclick="addItem()">
+        + Přidat položku
+    </button>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Uložit fakturu</button>
+        <a href="/Invoices" class="btn btn-secondary">Zpět</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        let itemIndex = 1;
+
+        function addItem() {
+            const container = document.getElementById('itemsContainer');
+            const productOptions = `@foreach (var p in Model.Products) {
+                <text><option value="@p.Id" data-price="@p.Price">@p.Name</option></text>
+            }`;
+
+            const row = document.createElement('div');
+            row.className = 'row g-2 mb-2 item-row';
+            row.innerHTML = `
+                <div class="col-md-5">
+                    <select name="Items[${itemIndex}].ProductId" class="form-select" required>
+                        <option value="">-- Vyber produkt --</option>
+                        ${productOptions}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input name="Items[${itemIndex}].Quantity" type="number" min="1"
+                           class="form-control" placeholder="Množství" required />
+                </div>
+                <div class="col-md-3">
+                    <input name="Items[${itemIndex}].UnitPrice" type="number" step="0.01"
+                           class="form-control" placeholder="Cena za kus" required />
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-outline-danger w-100"
+                            onclick="removeItem(this)">Odebrat</button>
+                </div>`;
+            container.appendChild(row);
+            itemIndex++;
+        }
+
+        function removeItem(btn) {
+            const rows = document.querySelectorAll('.item-row');
+            if (rows.length > 1)
+                btn.closest('.item-row').remove();
+        }
+
+        // Automaticky vyplň cenu při výběru produktu
+        document.addEventListener('change', function(e) {
+            if (e.target.matches('select[name*="ProductId"]')) {
+                const price = e.target.selectedOptions[0]?.dataset.price;
+                const row = e.target.closest('.item-row');
+                const priceInput = row.querySelector('input[name*="UnitPrice"]');
+                if (price) priceInput.value = price;
+            }
+        });
+
+        // Přepínání dodavatel/zákazník
+        const invoiceType = document.getElementById('invoiceType');
+        const supplierField = document.getElementById('supplierField');
+        const customerField = document.getElementById('customerField');
+
+        invoiceType.addEventListener('change', function() {
+            if (this.value === '0') {
+                supplierField.style.display = 'block';
+                customerField.style.display = 'none';
+            } else {
+                supplierField.style.display = 'none';
+                customerField.style.display = 'block';
+            }
+        });
+
+        // Select2 pro první řádek
+        $('.select2-product').select2({
+            placeholder: 'Hledat produkt...',
+            allowClear: true,
+            width: '100%',
+            theme: 'bootstrap-5'
+        });
+    </script>
+}

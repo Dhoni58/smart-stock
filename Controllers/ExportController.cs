@@ -75,4 +75,20 @@ public class ExportController : ControllerBase
         return File(bytes, "application/pdf",
             $"pohyby_{DateTime.Now:yyyyMMdd}.pdf");
     }
+    [HttpGet("invoices/{id}/pdf")]
+    public async Task<IActionResult> InvoicePdf(int id)
+    {
+        var invoice = await _db.Invoices
+            .Include(i => i.Items)
+            .Include(i => i.Supplier)
+            .Include(i => i.CreatedByUser)
+            .FirstOrDefaultAsync(i => i.Id == id);
+
+        if (invoice == null)
+            return NotFound();
+
+        var bytes = _exportService.GenerateInvoicePdf(invoice);
+        return File(bytes, "application/pdf",
+            $"faktura_{invoice.InvoiceNumber}.pdf");
+    }
 }

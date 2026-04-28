@@ -223,4 +223,130 @@ public class ExportService
 
         return document.GeneratePdf();
     }
+
+    public byte[] GenerateInvoicePdf(Invoice invoice)
+    {
+        var document = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(2, Unit.Centimetre);
+                page.DefaultTextStyle(x => x.FontSize(10));
+
+                page.Content().Column(col =>
+                {
+                    // Hlavička
+                    col.Item().Row(row =>
+                    {
+                        row.RelativeItem().Column(c =>
+                        {
+                            c.Item().Text("SMART STOCK").FontSize(20).Bold()
+                                .FontColor(Colors.Blue.Medium);
+                            c.Item().Text(invoice.Type == InvoiceType.Received
+                                ? "PŘIJATÁ FAKTURA"
+                                : "VYDANÁ FAKTURA")
+                                .FontSize(12).FontColor(Colors.Grey.Medium);
+                        });
+
+                        row.RelativeItem().AlignRight().Column(c =>
+                        {
+                            c.Item().Text($"Číslo: {invoice.InvoiceNumber}").Bold();
+                            c.Item().Text($"Datum vystavení: {invoice.IssueDate:dd.MM.yyyy}");
+                            c.Item().Text($"Datum splatnosti: {invoice.DueDate:dd.MM.yyyy}");
+                        });
+                    });
+
+                    col.Item().PaddingVertical(10).LineHorizontal(1)
+                        .LineColor(Colors.Grey.Lighten2);
+
+                    // Dodavatel nebo zákazník
+                    col.Item().PaddingBottom(15).Row(row =>
+                    {
+                        row.RelativeItem().Column(c =>
+                        {
+                            c.Item().Text(invoice.Type == InvoiceType.Received
+                                ? "DODAVATEL" : "ZÁKAZNÍK")
+                                .FontSize(8).FontColor(Colors.Grey.Medium);
+                            c.Item().Text(invoice.Type == InvoiceType.Received
+                                ? invoice.Supplier?.Name ?? "—"
+                                : invoice.CustomerName ?? "—").Bold();
+                            c.Item().Text(invoice.Type == InvoiceType.Received
+                                ? invoice.Supplier?.Address ?? "—"
+                                : invoice.CustomerAddress ?? "—");
+                        });
+
+                        row.RelativeItem().AlignRight().Column(c =>
+                        {
+                            c.Item().Text("Vystavil").FontSize(8).FontColor(Colors.Grey.Medium);
+                            c.Item().Text(invoice.CreatedByUser?.Name ?? "—").Bold();
+                        });
+                    });
+
+                    // Tabulka položek
+                    col.Item().Table(table =>
+                    {
+                        table.ColumnsDefinition(c =>
+                        {
+                            c.RelativeColumn(4);
+                            c.RelativeColumn(1);
+                            c.RelativeColumn(2);
+                            c.RelativeColumn(2);
+                            c.RelativeColumn(2);
+                        });
+
+                        table.Header(header =>
+                        {
+                            foreach (var h in new[] { "Produkt", "Množství", "Cena/ks", "Bez DPH", "S DPH" })
+                            {
+                                header.Cell().Background(Colors.Blue.Medium)
+                                    .Padding(5).Text(h).FontColor(Colors.White).Bold();
+                            }
+                        });
+
+                        foreach (var item in invoice.Items)
+                        {
+                            table.Cell().Padding(5).Text(item.ProductName);
+                            table.Cell().Padding(5).Text($"{item.Quantity} ks");
+                            table.Cell().Padding(5).Text($"{item.UnitPrice:N2} Kč");
+                            table.Cell().Padding(5).Text($"{item.TotalWithoutVat:N2} Kč");
+                            table.Cell().Padding(5).Text($"{item.TotalWithVat:N2} Kč");
+                        }
+                    });
+
+                    col.Item().PaddingVertical(10).LineHorizontal(1)
+                        .LineColor(Colors.Grey.Lighten2);
+
+                    // Celková částka
+                    col.Item().AlignRight().Column(c =>
+                    {
+                        var totalWithoutVat = invoice.Items.Sum(i => i.TotalWithoutVat);
+                        var totalVat = invoice.Items.Sum(i => i.VatAmount);
+                        var totalWithVat = invoice.Items.Sum(i => i.TotalWithVat);
+
+                        c.Item().Text($"Celkem bez DPH: {totalWithoutVat:N2} Kč");
+                        c.Item().Text($"DPH 21%: {totalVat:N2} Kč");
+                        c.Item().Text($"Celkem s DPH: {totalWithVat:N2} Kč")
+                            .FontSize(14).Bold().FontColor(Colors.Blue.Medium);
+                    });
+
+                    // Poznámka
+                    if (!string.IsNullOrEmpty(invoice.Note))
+                    {
+                        col.Item().PaddingTop(15).Column(c =>
+                        {
+                            c.Item().Text("Poznámka").FontSize(8).FontColor(Colors.Grey.Medium);
+                            c.Item().Text(invoice.Note);
+                        });
+                    }
+                });
+
+                page.Footer().AlignCenter()
+                    .Text($"Vygenerováno: {DateTime.Now:dd.MM.yyyy HH:mm}")
+                    .FontSize(8).FontColor(Colors.Grey.Medium);
+            });
+        });
+
+        return document.GeneratePdf();
+    }
 }

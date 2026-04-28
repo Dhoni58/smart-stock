@@ -22,6 +22,7 @@ public class IndexModel : PageModel
             .Include(m => m.Product)
             .Include(m => m.CreatedByUser)
             .Include(m => m.Supplier)
+            .Include(m => m.Invoice)
             .OrderByDescending(m => m.CreatedAt)
             .ToListAsync();
     }

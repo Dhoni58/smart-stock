@@ -28,6 +28,7 @@
             <th>Dodavatel</th>
             <th>Vytvořil</th>
             <th>Poznámka</th>
+            <th>Faktura</th>
         </tr>
     </thead>
     <tbody>
@@ -50,6 +51,7 @@
                 <td>@(movement.Supplier?.Name ?? "-")</td>
                 <td>@(movement.CreatedByUser?.Name ?? "-")</td>
                 <td>@movement.Note</td>
+                <td>@(movement.Invoice?.InvoiceNumber ?? "-")</td>
             </tr>
         }
     </tbody>

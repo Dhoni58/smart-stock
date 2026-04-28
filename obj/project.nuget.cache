@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4XUQwglD+oo=",
+  "dgSpecHash": "0/vTYnwAUM8=",
   "success": true,
-  "projectFilePath": "C:\\Users\\honza\\WarehouseSystem\\WarehouseSystem.csproj",
+  "projectFilePath": "C:\\Users\\honza\\smart-stock\\WarehouseSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\honza\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
     "C:\\Users\\honza\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",

@@ -23,4 +23,7 @@ public class WarehouseMovement
     // Příjem = dodavatel
     public int? SupplierId { get; set; }
     public Supplier? Supplier { get; set; }
+
+    public int? InvoiceId { get; set; }
+    public Invoice? Invoice { get; set; }
 }
