@@ -13,6 +13,7 @@ Skladový systém s jednoduchým ovládáním. Plně funkční s produkty, pohyb
 - Hlídač minimální zásoby
 - Uživatelé (vedoucí-skladník/hlídání pohybů)
 - Dodavatelé (Informace skrz ARES API)
+- Export do Excelu a PDF
 ## Spuštění
 - Instalace .NET 10 SDK (https://dotnet.microsoft.com/download)
 - Naklonování repozitáře https://github.com/Dhoni58/smart-stock.git
