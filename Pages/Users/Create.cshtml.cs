@@ -16,7 +16,7 @@ public class CreateModel : PageModel
     }
 
     [BindProperty]
-    public User User { get; set; } = new();
+    public User CurrentUser { get; set; } = new();
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -24,21 +24,21 @@ public class CreateModel : PageModel
             return Page();
 
         // Ověř že PIN má přesně 5 číslic
-        if (User.Pin.Length != 5 || !User.Pin.All(char.IsDigit))
+        if (CurrentUser.Pin.Length != 5 || !CurrentUser.Pin.All(char.IsDigit))
         {
             ModelState.AddModelError(string.Empty, "PIN musí obsahovat přesně 5 číslic.");
             return Page();
         }
 
         // Ověř že PIN není již používán
-        var pinExists = await _db.Users.AnyAsync(u => u.Pin == User.Pin);
+        var pinExists = await _db.Users.AnyAsync(u => u.Pin == CurrentUser.Pin);
         if (pinExists)
         {
             ModelState.AddModelError(string.Empty, "Tento PIN je již používán.");
             return Page();
         }
 
-        _db.Users.Add(User);
+        _db.Users.Add(CurrentUser);
         await _db.SaveChangesAsync();
 
         return RedirectToPage("/Users/Index");

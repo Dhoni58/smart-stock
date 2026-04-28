@@ -16,7 +16,7 @@ public class EditModel : PageModel
     }
 
     [BindProperty]
-    public User User { get; set; } = new();
+    public User CurrentUser { get; set; } = new();
 
     [BindProperty]
     public string? NewPin { get; set; }
@@ -28,7 +28,7 @@ public class EditModel : PageModel
         if (user == null)
             return RedirectToPage("/Users/Index");
 
-        User = user;
+        CurrentUser = user;
         return Page();
     }
 
@@ -37,7 +37,7 @@ public class EditModel : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        var user = await _db.Users.FindAsync(User.Id);
+        var user = await _db.Users.FindAsync(CurrentUser.Id);
 
         if (user == null)
             return RedirectToPage("/Users/Index");
@@ -52,7 +52,7 @@ public class EditModel : PageModel
             }
 
             var pinExists = await _db.Users
-                .AnyAsync(u => u.Pin == NewPin && u.Id != User.Id);
+                .AnyAsync(u => u.Pin == NewPin && u.Id != CurrentUser.Id);
 
             if (pinExists)
             {
@@ -63,9 +63,9 @@ public class EditModel : PageModel
             user.Pin = NewPin;
         }
 
-        user.Name = User.Name;
-        user.Role = User.Role;
-        user.IsActive = User.IsActive;
+        user.Name = CurrentUser.Name;
+        user.Role = CurrentUser.Role;
+        user.IsActive = CurrentUser.IsActive;
 
         await _db.SaveChangesAsync();
 

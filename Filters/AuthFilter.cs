@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WarehouseSystem.Helpers;
 
 namespace WarehouseSystem.Filters;
 
@@ -17,7 +18,7 @@ public class AuthFilter : IPageFilter
         if (path.StartsWith("/Logout", StringComparison.OrdinalIgnoreCase))
             return;
 
-        var userId = context.HttpContext.Session.GetInt32("UserId");
+        var userId = context.HttpContext.Session.GetInt32(SessionKeys.UserId);
 
         if (userId == null)
         {
@@ -28,7 +29,7 @@ public class AuthFilter : IPageFilter
         // Stránky pouze pro vedoucího
         if (path.StartsWith("/Users", StringComparison.OrdinalIgnoreCase))
         {
-            var role = context.HttpContext.Session.GetString("UserRole");
+            var role = context.HttpContext.Session.GetString(SessionKeys.UserRole);
             if (role != "Vedouci")
                 context.Result = new RedirectToPageResult("/Index");
         }
@@ -42,7 +43,7 @@ public class AuthFilter : IPageFilter
         if (path.StartsWith("/Login", StringComparison.OrdinalIgnoreCase))
             return;
 
-        var userId = context.HttpContext.Session.GetInt32("UserId");
+        var userId = context.HttpContext.Session.GetInt32(SessionKeys.UserId);
 
         if (userId == null)
             context.Result = new RedirectToPageResult("/Login");

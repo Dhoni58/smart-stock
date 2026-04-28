@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using WarehouseSystem.Helpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -39,7 +40,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Invoices/Index">Faktury</a>
                         </li>
-                        @if (Context.Session.GetString("UserRole") == "Vedouci")
+                        @if (Context.Session.GetString(SessionKeys.UserRole) == "Vedouci")
                         {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Uživatelé</a>
@@ -49,7 +50,7 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <span class="navbar-text me-3">
-                        @Context.Session.GetString("UserName")
+                        @Context.Session.GetString(SessionKeys.UserName)
                     </span>
                     <a href="/Logout" class="btn btn-sm btn-outline-danger">Odhlásit</a>
                 </div>

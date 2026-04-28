@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
+using WarehouseSystem.Helpers;
 
 
 namespace WarehouseSystem.Pages.Movements;
@@ -55,7 +56,7 @@ public class CreateModel : PageModel
             Movement.SupplierId = null;
 
         //Tvůrce pohybu
-        Movement.CreatedByUserId = HttpContext.Session.GetInt32("UserId");
+        Movement.CreatedByUserId = HttpContext.Session.GetInt32(SessionKeys.UserId);
 
         product.ApplyMovement(Movement.Type, Movement.Quantity);
         _db.WarehouseMovements.Add(Movement);

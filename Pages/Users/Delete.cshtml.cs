@@ -14,7 +14,7 @@ public class DeleteModel : PageModel
         _db = db;
     }
 
-    public User User { get; set; } = new();
+    public User CurrentUser { get; set; } = new();
 
     public async Task<IActionResult> OnPostAsync(int id)
     {

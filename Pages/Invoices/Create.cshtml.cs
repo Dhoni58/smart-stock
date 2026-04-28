@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Models;
 using WarehouseSystem.Services;
+using WarehouseSystem.Helpers;
 
 namespace WarehouseSystem.Pages.Invoices;
 
@@ -44,7 +45,7 @@ public class CreateModel : PageModel
         }
 
         Invoice.InvoiceNumber = await _invoiceNumberService.GenerateAsync(Invoice.Type);
-        Invoice.CreatedByUserId = HttpContext.Session.GetInt32("UserId") ?? 0;
+        Invoice.CreatedByUserId = HttpContext.Session.GetInt32(SessionKeys.UserId) ?? 0;
         Invoice.CreatedAt = DateTime.Now;
 
         foreach (var item in Items)

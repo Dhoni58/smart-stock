@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
+using WarehouseSystem.Helpers;
 
 namespace WarehouseSystem.Pages;
 
@@ -30,9 +31,9 @@ public class LoginModel : PageModel
             return Page();
         }
 
-        HttpContext.Session.SetInt32("UserId", user.Id);
-        HttpContext.Session.SetString("UserName", user.Name);
-        HttpContext.Session.SetString("UserRole", user.Role.ToString());
+        HttpContext.Session.SetInt32(SessionKeys.UserId, user.Id);
+        HttpContext.Session.SetString(SessionKeys.UserName, user.Name);
+        HttpContext.Session.SetString(SessionKeys.UserRole, user.Role.ToString());
 
         return RedirectToPage("/Index");
     }
