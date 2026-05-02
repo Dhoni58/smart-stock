@@ -46,7 +46,7 @@
                         ? invoice.Supplier?.Name ?? "—"
                         : invoice.CustomerName ?? "—")
                 </td>
-                <td>@invoice.Items.Sum(i => i.TotalWithVat).ToString("N2") Kč</td>
+                <td>@invoice.Items.Sum(i => i.TotalWithDph).ToString("N2") Kč</td>
                 <td>@invoice.IssueDate.ToString("dd.MM.yyyy")</td>
                 <td>@invoice.DueDate.ToString("dd.MM.yyyy")</td>
                 <td>@(invoice.CreatedByUser?.Name ?? "—")</td>

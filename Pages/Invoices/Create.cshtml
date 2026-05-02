@@ -68,7 +68,9 @@
                     <option value="">-- Vyber produkt --</option>
                     @foreach (var p in Model.Products)
                     {
-                        <option value="@p.Id" data-price="@p.Price">@p.Name</option>
+                        <option value="@p.Id" 
+                        data-purchase-price="@p.PurchasePrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" 
+                        data-selling-price="@p.SellingPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)">@p.Name</option>
                     }
                 </select>
             </div>
@@ -104,7 +106,9 @@
         function addItem() {
             const container = document.getElementById('itemsContainer');
             const productOptions = `@foreach (var p in Model.Products) {
-                <text><option value="@p.Id" data-price="@p.Price">@p.Name</option></text>
+                <text><option value="@p.Id" 
+                        data-purchase-price="@p.PurchasePrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" 
+                        data-selling-price="@p.SellingPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)">@p.Name</option></text>
             }`;
 
             const row = document.createElement('div');
@@ -138,15 +142,14 @@
                 btn.closest('.item-row').remove();
         }
 
-        // Automaticky vyplň cenu při výběru produktu
-        document.addEventListener('change', function(e) {
-            if (e.target.matches('select[name*="ProductId"]')) {
-                const price = e.target.selectedOptions[0]?.dataset.price;
-                const row = e.target.closest('.item-row');
-                const priceInput = row.querySelector('input[name*="UnitPrice"]');
-                if (price) priceInput.value = price;
-            }
+
+        $('.select2-product').select2({
+            placeholder: 'Hledat produkt...',
+            allowClear: true,
+            width: '100%',
+            theme: 'bootstrap-5'
         });
+
 
         // Přepínání dodavatel/zákazník
         const invoiceType = document.getElementById('invoiceType');
@@ -163,12 +166,18 @@
             }
         });
 
-        // Select2 pro první řádek
-        $('.select2-product').select2({
-            placeholder: 'Hledat produkt...',
-            allowClear: true,
-            width: '100%',
-            theme: 'bootstrap-5'
+        // Automaticky vyplň cenu při výběru produktu
+        $(document).on('change', 'select[name*="ProductId"]', function() {
+            const selected = this.selectedOptions[0];
+            const invoiceType = document.getElementById('invoiceType').value;
+            const row = this.closest('.item-row');
+            const priceInput = row.querySelector('input[name*="UnitPrice"]');
+
+            if (invoiceType === '0') {
+                priceInput.value = selected?.dataset.purchasePrice ?? '';
+            } else {
+                priceInput.value = selected?.dataset.sellingPrice ?? '';
+            }
         });
     </script>
 }

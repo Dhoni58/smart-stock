@@ -7,7 +7,7 @@
 <h2>Skladové produkty</h2>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <a href="/Products/Create" class="btn btn-primary">+ Přidat produkt</a>
+    <a href="/Products/Add" class="btn btn-primary">+ Přidat produkt</a>
     <div class="d-flex gap-2">
         <a href="/api/export/products/excel" class="btn btn-outline-success btn-sm" title="Export do Excelu">
             <img src="https://img.icons8.com/color/24/microsoft-excel-2019.png" />
@@ -45,7 +45,9 @@
         <tr>
             <th>Název</th>
             <th>Kategorie</th>
-            <th>Cena</th>
+            <th>Nákupní Cena</th>
+            <th>Prodejní Cena</th>
+            <th>DPH</th>
             <th>Na skladě</th>
             <th>Min. zásoba</th>
             <th></th>
@@ -57,7 +59,9 @@
             <tr class="@(product.WarehouseInv <= product.MinimumInv ? "table-danger" : "")">
                 <td>@product.Name</td>
                 <td>@(product.Category?.Name ?? "—")</td>
-                <td>@product.Price.ToString("C")</td>
+                <td>@product.PurchasePrice.ToString("C")</td>
+                <td>@product.SellingPrice.ToString("C")</td>
+                <td>@product.DphRate.ToString("0") %</td>
                 <td>@product.WarehouseInv</td>
                 <td>@product.MinimumInv</td>
                 <td>

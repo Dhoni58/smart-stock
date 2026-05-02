@@ -48,7 +48,8 @@ public class EditModel : PageModel
         
         product.Name = Product.Name;
         product.Description = Product.Description;
-        product.Price = Product.Price;
+        product.PurchasePrice = Product.PurchasePrice;
+        product.SellingPrice = Product.SellingPrice;
         product.MinimumInv = Product.MinimumInv;
         product.CategoryId = Product.CategoryId;
         await _db.SaveChangesAsync();

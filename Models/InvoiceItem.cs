@@ -10,8 +10,8 @@ public class InvoiceItem
     public string ProductName { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-    public decimal VatRate { get; set; } = 21m;
-    public decimal TotalWithoutVat => Quantity * UnitPrice;
-    public decimal VatAmount => TotalWithoutVat * (VatRate / 100);
-    public decimal TotalWithVat => TotalWithoutVat + VatAmount;
+    public decimal DphRate { get; set; } = 21m;
+    public decimal TotalWithoutDph => Quantity * UnitPrice;
+    public decimal DphAmount => TotalWithoutDph * (DphRate / 100);
+    public decimal TotalWithDph => TotalWithoutDph + DphAmount;
 }

@@ -59,7 +59,7 @@ public class CreateModel : PageModel
                 ProductName = product.Name,
                 Quantity = item.Quantity,
                 UnitPrice = item.UnitPrice,
-                VatRate = 21m
+                DphRate = product.DphRate
             };
 
             Invoice.Items.Add(invoiceItem);
@@ -84,7 +84,6 @@ public class CreateModel : PageModel
                 ProductId = item.ProductId,
                 Type = movementType,
                 Quantity = item.Quantity,
-                Note = $"Faktura {Invoice.InvoiceNumber}",
                 CreatedByUserId = Invoice.CreatedByUserId,
                 SupplierId = Invoice.Type == InvoiceType.Received ? Invoice.SupplierId : null,
                 CreatedAt = DateTime.Now
