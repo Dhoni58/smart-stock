@@ -1,0 +1,29 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout kódu
+      uses: actions/checkout@v4
+
+    - name: Instalace .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore závislostí
+      run: dotnet restore SmartStock.slnx
+
+    - name: Build
+      run: dotnet build SmartStock.slnx --no-restore
+
+    - name: Spuštění testů
+      run: dotnet test SmartStock.slnx --no-build --verbosity normal
