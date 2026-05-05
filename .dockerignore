@@ -1,0 +1,5 @@
+**/obj
+**/bin
+**/.github
+**/SmartStock.Tests
+*.md
