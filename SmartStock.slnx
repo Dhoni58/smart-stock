@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SmartStock.Tests/SmartStock.Tests.csproj" />
+  <Project Path="WarehouseSystem.csproj" />
+</Solution>
