@@ -59,8 +59,8 @@
             <tr class="@(product.WarehouseInv <= product.MinimumInv ? "table-danger" : "")">
                 <td>@product.Name</td>
                 <td>@(product.Category?.Name ?? "—")</td>
-                <td>@product.PurchasePrice.ToString("C")</td>
-                <td>@product.SellingPrice.ToString("C")</td>
+                <td>@product.PurchasePrice.ToString("N2") KČ</td>
+                <td>@product.SellingPrice.ToString("N2") KČ</td>
                 <td>@product.DphRate.ToString("0") %</td>
                 <td>@product.WarehouseInv</td>
                 <td>@product.MinimumInv</td>

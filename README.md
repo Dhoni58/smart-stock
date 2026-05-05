@@ -1,22 +1,39 @@
 # smart-stock
-Skladový systém s jednoduchým ovládáním. Plně funkční s produkty, pohyby. Vytvořeno jako projekt do CV.
+Skladový systém s pro operaci s produkty, pohyby, a fakturami. Vytvořeno jako projekt do CV.
 
 ## Stack
-- C# / ASP.NET Core 8
+- C# / ASP.NET Core 10
 - Razor Pages
 - Entity Framework Core
 - SQLite
 - Bootstrap 5
+- ClosedXML a QuestPDF (export do excelu a pdf)
+- ARES API (Hledáni firem dle IČO)
 ## Funkce
-- Skladové pohyby (výdej/příjem)
-- Produkty (Přidání/Úprava/Smazání)
-- Hlídač minimální zásoby
-- Uživatelé (vedoucí-skladník/hlídání pohybů)
-- Dodavatelé (Informace skrz ARES API)
-- Export do Excelu a PDF
-## Spuštění
-- Instalace .NET 10 SDK (https://dotnet.microsoft.com/download)
-- Naklonování repozitáře https://github.com/Dhoni58/smart-stock.git
-- cd WarehouseSystem (cesta do složky projektu)
-- dotnet run (spuštění aplikace)
-- přihlášení přímo do aplikace pomocí 5 místného pinu (12345 pro vedoucího(admina)/11111 pro běžného zaměstnance)
+- Přihlášení pomoní 5 místného PIN kódu s přiřazenými rolemi (vedoucí/skladník)
+- Správa produktů + kategorií (Nákupní a prodejní cena + DPH)
+- Skladové pohyby (příjem/výdej) s audit logem
+- Hlídač minimální zásoby s upozorněním
+- Dodavatelé (automatické doplnění informací skrz ARES API)
+- Export do Excelu a PDF (produkty/pohyby)
+- Faktury (přijaté/vydané) s generováním PDF
+- Unit testy (NUnit)
+- CI/CD pipeline (GitHubActions)
+## Spuštění bez Dockeru
+1. Instalace .NET 10 SDK (https://dotnet.microsoft.com/download)
+2. Naklonování repozitáře:
+    git clone https://github.com/Dhoni58/smart-stock.git
+3. Spuštění aplikace:
+    cd smart-stock
+    dotnet run
+## Spuštění přes Docker
+1. Instalace Docker Desktop (https://www.docker.com/products/docker-desktop)
+2. Naklonování repozitáře:
+    git clone https://github.com/Dhoni58/smart-stock.git
+3. Spuštění aplikace:
+    cd smart-stock
+    docker compose up --build
+4. Otevři prohlížeč na http://localhost:8080
+## Přihlášení
+- Pro roli vedoucí(admin) - 12345
+- Pro roli skladníka - 11111 nebo 22222
