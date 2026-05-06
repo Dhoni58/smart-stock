@@ -37,3 +37,10 @@ Skladový systém s pro operaci s produkty, pohyby, a fakturami. Vytvořeno jako
 ## Přihlášení
 - Pro roli vedoucí(admin) - 12345
 - Pro roli skladníka - 11111 nebo 22222
+
+## Ukázka
+![MinimálníZásoba](screenshots/screenshot_minzasoba.png)
+![Produkty](screenshots/screenshot_produkty.png)
+![Pohyby](screenshots/screenshot_pohyby.png)
+![Dodavatelé](screenshots/screenshot_dodavatel.png)
+![Faktury](screenshots/screenshot_faktura.png)
