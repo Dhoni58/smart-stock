@@ -12,6 +12,16 @@ builder.Services.AddHttpClient<AresService>();
 builder.Services.AddControllers();
 builder.Services.AddScoped<InvoiceNumberService>();
 builder.Services.AddScoped<ExportService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Smart Stock API",
+        Version = "v1",
+        Description = "REST API pro systém Smart Stock"
+    });
+});
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
@@ -50,6 +60,13 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Stock API v1");
+    c.RoutePrefix = "swagger";
+});
 
 app.MapStaticAssets();
 app.MapRazorPages()

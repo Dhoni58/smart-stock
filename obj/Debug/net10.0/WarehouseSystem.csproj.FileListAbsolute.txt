@@ -528,3 +528,9 @@ C:\Users\honza\smart-stock\obj\Debug\net10.0\refint\WarehouseSystem.dll
 C:\Users\honza\smart-stock\obj\Debug\net10.0\WarehouseSystem.pdb
 C:\Users\honza\smart-stock\obj\Debug\net10.0\WarehouseSystem.genruntimeconfig.cache
 C:\Users\honza\smart-stock\obj\Debug\net10.0\ref\WarehouseSystem.dll
+C:\Users\honza\smart-stock\obj\Debug\net10.0\WarehouseSystem.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\honza\smart-stock\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\honza\smart-stock\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\honza\smart-stock\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\honza\smart-stock\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\honza\smart-stock\bin\Debug\net10.0\appsettings.Production.json
