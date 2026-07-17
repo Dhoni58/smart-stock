@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +10,12 @@ namespace WarehouseSystem.Pages.Users;
 public class EditModel : PageModel
 {
     private readonly AppDbContext _db;
+    private readonly IPasswordHasher<User> _hasher;
 
-    public EditModel(AppDbContext db)
+    public EditModel(AppDbContext db, IPasswordHasher<User> hasher)
     {
         _db = db;
+        _hasher = hasher;
     }
 
     [BindProperty]
@@ -51,8 +54,12 @@ public class EditModel : PageModel
                 return Page();
             }
 
-            var pinExists = await _db.Users
-                .AnyAsync(u => u.Pin == NewPin && u.Id != CurrentUser.Id);
+             var otherUsers = await _db.Users
+                .Where(u => u.Id != CurrentUser.Id)
+                .ToListAsync();
+
+            bool pinExists = otherUsers.Any(u =>
+                _hasher.VerifyHashedPassword(u, u.PinHash, NewPin) == PasswordVerificationResult.Success);
 
             if (pinExists)
             {
@@ -60,7 +67,7 @@ public class EditModel : PageModel
                 return Page();
             }
 
-            user.Pin = NewPin;
+            user.PinHash = _hasher.HashPassword(user, NewPin);
         }
 
         user.Name = CurrentUser.Name;

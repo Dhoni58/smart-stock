@@ -1,18 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using WarehouseSystem.Data;
 using WarehouseSystem.Helpers;
+using WarehouseSystem.Models;
 
 namespace WarehouseSystem.Pages;
 
 public class LoginModel : PageModel
 {
     private readonly AppDbContext _db;
+    private readonly IPasswordHasher<User> _hasher;
 
-    public LoginModel(AppDbContext db)
+    public LoginModel(AppDbContext db, IPasswordHasher<User> hasher)
     {
         _db = db;
+        _hasher = hasher;
     }
 
     [BindProperty]
@@ -20,21 +25,35 @@ public class LoginModel : PageModel
 
     public string? ErrorMessage { get; set; }
 
+    private const int MaxFailedAttempts = 5;
+    private static readonly TimeSpan LockoutDuration = TimeSpan.FromMinutes(5);
+
     public async Task<IActionResult> OnPostAsync()
-    {
-        var user = await _db.Users
-            .FirstOrDefaultAsync(u => u.Pin == Pin && u.IsActive);
+     {
+        var activeUsers = await _db.Users.Where(u => u.IsActive).ToListAsync();
 
-        if (user == null)
+        foreach (var user in activeUsers)
         {
-            ErrorMessage = "Nesprávný PIN. Zkuste to znovu.";
-            return Page();
+            if (user.LockoutUntil is { } until && until > DateTime.UtcNow)
+                continue; // skip locked-out users, they can't match anyway
+
+            var result = _hasher.VerifyHashedPassword(user, user.PinHash, Pin);
+
+            if (result == PasswordVerificationResult.Success ||
+                result == PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                user.FailedLoginAttempts = 0;
+                user.LockoutUntil = null;
+                await _db.SaveChangesAsync();
+
+                HttpContext.Session.SetInt32(SessionKeys.UserId, user.Id);
+                HttpContext.Session.SetString(SessionKeys.UserName, user.Name);
+                HttpContext.Session.SetString(SessionKeys.UserRole, user.Role.ToString());
+
+                return RedirectToPage("/Index");
+            }
         }
-
-        HttpContext.Session.SetInt32(SessionKeys.UserId, user.Id);
-        HttpContext.Session.SetString(SessionKeys.UserName, user.Name);
-        HttpContext.Session.SetString(SessionKeys.UserRole, user.Role.ToString());
-
-        return RedirectToPage("/Index");
-    }
+        ErrorMessage = "Nesprávný PIN. Zkuste znovu.";
+        return Page();
+     }
 }

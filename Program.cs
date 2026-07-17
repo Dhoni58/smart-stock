@@ -4,6 +4,8 @@ using WarehouseSystem.Models;
 using WarehouseSystem.Filters;
 using WarehouseSystem.Services;
 using QuestPDF.Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<InvoiceNumberService>();
 builder.Services.AddScoped<ExportService>();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -43,6 +46,37 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
 });
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.ContentType = "text/html; charset=utf-8";
+        await context.HttpContext.Response.WriteAsync(
+            "<h2>Příliš mnoho pokusů o přihlášení</h2>" +
+            "<p>Zkuste to prosím znovu za pár minut.</p>" +
+            "<a href=\"/Login\">Zpět na přihlášení</a>",
+            cancellationToken);
+    };
+
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+    {
+        bool isLoginPost = context.Request.Path == "/Login"
+            && HttpMethods.IsPost(context.Request.Method);
+
+        if (!isLoginPost)
+            return RateLimitPartition.GetNoLimiter("bypass");
+
+        var ip = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        return RateLimitPartition.GetFixedWindowLimiter(ip, _ => new FixedWindowRateLimiterOptions
+        {
+            Window = TimeSpan.FromMinutes(5),
+            PermitLimit = 5,
+            QueueLimit = 0
+        });
+    });
+});
+
 var app = builder.Build();
 
     app.MapControllers();
@@ -58,6 +92,8 @@ app.UseSession();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthorization();
 
@@ -79,12 +115,17 @@ using (var scope = app.Services.CreateScope())
 
     if (!db.Users.Any())
     {
+        var hasher = new PasswordHasher<User>();
         var users = new List<User>
         {
-            new User { Name = "Jan Novák", Pin = "12345", Role = UserRole.Vedouci },
-            new User { Name = "Pavel Dvořák", Pin = "11111", Role = UserRole.Skladnik },
-            new User { Name = "Martin Král", Pin = "22222", Role = UserRole.Skladnik },
+            new User { Name = "Jan Novák", Role = UserRole.Vedouci },
+            new User { Name = "Pavel Dvořák",  Role = UserRole.Skladnik },
+            new User { Name = "Martin Král", Role = UserRole.Skladnik },
         };
+
+        users[0].PinHash = hasher.HashPassword(users[0], "12345");
+        users[1].PinHash = hasher.HashPassword(users[1], "11111");
+        users[2].PinHash = hasher.HashPassword(users[2], "22222");
 
         db.Users.AddRange(users);
         db.SaveChanges();
