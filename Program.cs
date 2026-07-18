@@ -127,9 +127,15 @@ using (var scope = app.Services.CreateScope())
             new User { Name = "Martin Král", Role = UserRole.Skladnik },
         };
 
-        users[0].PinHash = hasher.HashPassword(users[0], "12345");
-        users[1].PinHash = hasher.HashPassword(users[1], "11111");
-        users[2].PinHash = hasher.HashPassword(users[2], "22222");
+        var managerPin = builder.Configuration["SeedUsers:ManagerPin"]
+            ?? throw new InvalidOperationException("SeedUsers:ManagerPin is not configured.");
+        var worker1Pin = builder.Configuration["SeedUsers:Worker1Pin"]
+            ?? throw new InvalidOperationException("SeedUsers:Worker1Pin is not configured.");
+        var worker2Pin = builder.Configuration["SeedUsers:Worker2Pin"]
+            ?? throw new InvalidOperationException("SeedUsers:Worker2Pin is not configured.");
+        users[0].PinHash = hasher.HashPassword(users[0], managerPin);
+        users[1].PinHash = hasher.HashPassword(users[1], worker1Pin);
+        users[2].PinHash = hasher.HashPassword(users[2], worker2Pin);
 
         db.Users.AddRange(users);
         db.SaveChanges();
