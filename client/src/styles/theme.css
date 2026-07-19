@@ -1,0 +1,23 @@
+:root {
+  --bg-page: #1c1e20;
+  --bg-card: #26282b;
+  --border-subtle: #3a3d40;
+  --border-input: #4a4d50;
+  --accent: #0f6e56;
+  --accent-icon: #5dcaa5;
+  --text-primary: #e1f5ee;
+  --text-secondary: #9aa0a0;
+  --danger: #f09595;
+  --grid-line: #1d9e75;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+}

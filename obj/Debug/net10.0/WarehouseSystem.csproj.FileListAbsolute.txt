@@ -507,3 +507,9 @@ C:\Users\honza\smart-stock\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.d
 C:\Users\honza\smart-stock\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\honza\smart-stock\bin\Debug\net10.0\Npgsql.dll
 C:\Users\honza\smart-stock\bin\Debug\net10.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\.oxlintrc.json
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\package-lock.json
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\package.json
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\tsconfig.app.json
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\tsconfig.json
+C:\Users\honza\smart-stock\bin\Debug\net10.0\client\tsconfig.node.json

@@ -65,7 +65,7 @@ builder.Services.AddRateLimiter(options =>
 
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
     {
-        bool isLoginPost = context.Request.Path == "/Login"
+        bool isLoginPost = context.Request.Path == "/api/auth/login"
             && HttpMethods.IsPost(context.Request.Method);
 
         if (!isLoginPost)
