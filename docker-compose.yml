@@ -6,8 +6,27 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Default=Host=db;Port=5432;Database=smartstock;Username=smartstock;Password=${DB_PASSWORD}
+      - SeedUsers__ManagerPin=${SEED_MANAGER_PIN}
+      - SeedUsers__Worker1Pin=${SEED_WORKER1_PIN}
+      - SeedUsers__Worker2Pin=${SEED_WORKER2_PIN}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=smartstock
+      - POSTGRES_USER=smartstock
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - sqlitedata:/app/data
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartstock"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  sqlitedata:
+  pgdata:

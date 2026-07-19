@@ -11,7 +11,7 @@ public class Supplier
     public string? Email { get; set; }
     public string? Note { get; set; }
     public bool IsActive { get; set; } = true;
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public List<WarehouseMovement> WarehouseMovements { get; set; } = new();
 }

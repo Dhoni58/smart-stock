@@ -14,7 +14,7 @@ public class WarehouseMovement
     public MovementType Type { get; set; }
     public int Quantity { get; set; }
     public string? Note { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Pohyby podle zaměstnance
     public int? CreatedByUserId { get; set; }

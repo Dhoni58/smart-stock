@@ -78,46 +78,46 @@ public static class DemoDataSeeder
 
         var movements = new List<WarehouseMovement>
         {
-            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Receipt, Quantity = 300, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.Now.AddDays(-30) },
-            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Issue, Quantity = 100, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-25) },
-            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Issue, Quantity = 50, Note = "Výdej do opravny", CreatedAt = DateTime.Now.AddDays(-10) },
+            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Receipt, Quantity = 300, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.UtcNow.AddDays(-30) },
+            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Issue, Quantity = 100, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-25) },
+            new WarehouseMovement { ProductId = products[0].Id, Type = MovementType.Issue, Quantity = 50, Note = "Výdej do opravny", CreatedAt = DateTime.UtcNow.AddDays(-10) },
 
-            new WarehouseMovement { ProductId = products[1].Id, Type = MovementType.Receipt, Quantity = 100, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.Now.AddDays(-28) },
-            new WarehouseMovement { ProductId = products[1].Id, Type = MovementType.Issue, Quantity = 92, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-20) },
+            new WarehouseMovement { ProductId = products[1].Id, Type = MovementType.Receipt, Quantity = 100, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.UtcNow.AddDays(-28) },
+            new WarehouseMovement { ProductId = products[1].Id, Type = MovementType.Issue, Quantity = 92, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-20) },
 
-            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Receipt, Quantity = 500, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.Now.AddDays(-28) },
-            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Issue, Quantity = 150, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-15) },
-            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Issue, Quantity = 150, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-5) },
+            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Receipt, Quantity = 500, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Haberkorn")).Id, CreatedAt = DateTime.UtcNow.AddDays(-28) },
+            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Issue, Quantity = 150, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-15) },
+            new WarehouseMovement { ProductId = products[2].Id, Type = MovementType.Issue, Quantity = 150, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-5) },
 
-            new WarehouseMovement { ProductId = products[3].Id, Type = MovementType.Receipt, Quantity = 200, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("SKF")).Id, CreatedAt = DateTime.Now.AddDays(-27) },
-            new WarehouseMovement { ProductId = products[3].Id, Type = MovementType.Issue, Quantity = 188, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-10) },
+            new WarehouseMovement { ProductId = products[3].Id, Type = MovementType.Receipt, Quantity = 200, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("SKF")).Id, CreatedAt = DateTime.UtcNow.AddDays(-27) },
+            new WarehouseMovement { ProductId = products[3].Id, Type = MovementType.Issue, Quantity = 188, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-10) },
 
-            new WarehouseMovement { ProductId = products[5].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("SKF")).Id, CreatedAt = DateTime.Now.AddDays(-26) },
-            new WarehouseMovement { ProductId = products[5].Id, Type = MovementType.Issue, Quantity = 17, Note = "Výdej do opravny", CreatedAt = DateTime.Now.AddDays(-8) },
+            new WarehouseMovement { ProductId = products[5].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("SKF")).Id, CreatedAt = DateTime.UtcNow.AddDays(-26) },
+            new WarehouseMovement { ProductId = products[5].Id, Type = MovementType.Issue, Quantity = 17, Note = "Výdej do opravny", CreatedAt = DateTime.UtcNow.AddDays(-8) },
 
-            new WarehouseMovement { ProductId = products[6].Id, Type = MovementType.Receipt, Quantity = 15, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Hennlich")).Id, CreatedAt = DateTime.Now.AddDays(-25) },
-            new WarehouseMovement { ProductId = products[6].Id, Type = MovementType.Issue, Quantity = 8, Note = "Výdej do opravny", CreatedAt = DateTime.Now.AddDays(-12) },
+            new WarehouseMovement { ProductId = products[6].Id, Type = MovementType.Receipt, Quantity = 15, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Hennlich")).Id, CreatedAt = DateTime.UtcNow.AddDays(-25) },
+            new WarehouseMovement { ProductId = products[6].Id, Type = MovementType.Issue, Quantity = 8, Note = "Výdej do opravny", CreatedAt = DateTime.UtcNow.AddDays(-12) },
 
-            new WarehouseMovement { ProductId = products[7].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Hennlich")).Id, CreatedAt = DateTime.Now.AddDays(-24) },
-            new WarehouseMovement { ProductId = products[7].Id, Type = MovementType.Issue, Quantity = 5, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-6) },
+            new WarehouseMovement { ProductId = products[7].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Hennlich")).Id, CreatedAt = DateTime.UtcNow.AddDays(-24) },
+            new WarehouseMovement { ProductId = products[7].Id, Type = MovementType.Issue, Quantity = 5, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-6) },
 
-            new WarehouseMovement { ProductId = products[9].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Rubena")).Id, CreatedAt = DateTime.Now.AddDays(-22) },
-            new WarehouseMovement { ProductId = products[9].Id, Type = MovementType.Issue, Quantity = 8, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-14) },
+            new WarehouseMovement { ProductId = products[9].Id, Type = MovementType.Receipt, Quantity = 20, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Rubena")).Id, CreatedAt = DateTime.UtcNow.AddDays(-22) },
+            new WarehouseMovement { ProductId = products[9].Id, Type = MovementType.Issue, Quantity = 8, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-14) },
 
-            new WarehouseMovement { ProductId = products[10].Id, Type = MovementType.Receipt, Quantity = 5, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Rubena")).Id, CreatedAt = DateTime.Now.AddDays(-20) },
-            new WarehouseMovement { ProductId = products[10].Id, Type = MovementType.Issue, Quantity = 3, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-7) },
+            new WarehouseMovement { ProductId = products[10].Id, Type = MovementType.Receipt, Quantity = 5, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Rubena")).Id, CreatedAt = DateTime.UtcNow.AddDays(-20) },
+            new WarehouseMovement { ProductId = products[10].Id, Type = MovementType.Issue, Quantity = 3, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-7) },
 
-            new WarehouseMovement { ProductId = products[12].Id, Type = MovementType.Receipt, Quantity = 30, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Conrad")).Id, CreatedAt = DateTime.Now.AddDays(-18) },
-            new WarehouseMovement { ProductId = products[12].Id, Type = MovementType.Issue, Quantity = 5, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-9) },
+            new WarehouseMovement { ProductId = products[12].Id, Type = MovementType.Receipt, Quantity = 30, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Conrad")).Id, CreatedAt = DateTime.UtcNow.AddDays(-18) },
+            new WarehouseMovement { ProductId = products[12].Id, Type = MovementType.Issue, Quantity = 5, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-9) },
 
-            new WarehouseMovement { ProductId = products[13].Id, Type = MovementType.Receipt, Quantity = 10, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Conrad")).Id, CreatedAt = DateTime.Now.AddDays(-17) },
-            new WarehouseMovement { ProductId = products[13].Id, Type = MovementType.Issue, Quantity = 7, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-4) },
+            new WarehouseMovement { ProductId = products[13].Id, Type = MovementType.Receipt, Quantity = 10, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Conrad")).Id, CreatedAt = DateTime.UtcNow.AddDays(-17) },
+            new WarehouseMovement { ProductId = products[13].Id, Type = MovementType.Issue, Quantity = 7, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-4) },
 
-            new WarehouseMovement { ProductId = products[16].Id, Type = MovementType.Receipt, Quantity = 5, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Linde")).Id, CreatedAt = DateTime.Now.AddDays(-15) },
-            new WarehouseMovement { ProductId = products[16].Id, Type = MovementType.Issue, Quantity = 3, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-3) },
+            new WarehouseMovement { ProductId = products[16].Id, Type = MovementType.Receipt, Quantity = 5, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Linde")).Id, CreatedAt = DateTime.UtcNow.AddDays(-15) },
+            new WarehouseMovement { ProductId = products[16].Id, Type = MovementType.Issue, Quantity = 3, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-3) },
 
-            new WarehouseMovement { ProductId = products[17].Id, Type = MovementType.Receipt, Quantity = 300, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Linde")).Id, CreatedAt = DateTime.Now.AddDays(-14) },
-            new WarehouseMovement { ProductId = products[17].Id, Type = MovementType.Issue, Quantity = 100, Note = "Výdej do výroby", CreatedAt = DateTime.Now.AddDays(-2) }
+            new WarehouseMovement { ProductId = products[17].Id, Type = MovementType.Receipt, Quantity = 300, Note = "Nová dodávka", SupplierId = suppliers.First(s => s.Name.Contains("Linde")).Id, CreatedAt = DateTime.UtcNow.AddDays(-14) },
+            new WarehouseMovement { ProductId = products[17].Id, Type = MovementType.Issue, Quantity = 100, Note = "Výdej do výroby", CreatedAt = DateTime.UtcNow.AddDays(-2) }
         };
 
         db.WarehouseMovements.AddRange(movements);

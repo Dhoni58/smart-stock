@@ -10,7 +10,7 @@ public class Product
     public decimal DphRate { get; set; } = 21m;
     public int WarehouseInv { get; set; } = 0;
     public int MinimumInv { get; set; }
-    public DateTime Createdat { get; set; } = DateTime.Now;
+    public DateTime Createdat { get; set; } = DateTime.UtcNow;
 
     public int? CategoryId { get; set; }
     public Category? Category { get; set; }
