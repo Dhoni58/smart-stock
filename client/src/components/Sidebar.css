@@ -1,0 +1,107 @@
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px;
+}
+
+.sidebar__logo {
+  padding: 4px 4px 20px;
+}
+
+.sidebar__logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 6px;
+  gap: 10px;
+  color: var(--sidebar-foreground);
+  text-decoration: none;
+  font-size: 14px;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sidebar__link:hover {
+  background: var(--sidebar-accent);
+}
+
+.sidebar__link:focus-visible {
+  outline: 2px solid var(--sidebar-ring);
+  outline-offset: -2px;
+}
+
+.sidebar__link--active {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-primary);
+  border-left-color: var(--sidebar-primary);
+  font-weight: 600;
+}
+
+.sidebar__link svg {
+  flex-shrink: 0;
+}
+
+.sidebar__footer {
+  border-top: 1px solid var(--sidebar-border);
+  margin-top: 12px;
+  padding-top: 12px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+
+.sidebar__logout {
+  margin-top: 8px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--sidebar-border);
+  color: var(--sidebar-foreground);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.15s ease;
+}
+
+.sidebar__logout:hover {
+  background: var(--sidebar-accent);
+}
+
+.sidebar__clock {
+  padding: 0 8px 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.sidebar__clock-time {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sidebar-primary);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.sidebar__clock-date {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 4px 0 0;
+  text-transform: capitalize; 
+}

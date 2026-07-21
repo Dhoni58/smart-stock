@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { login, type AuthUser } from '../api/authApi';
+import { useAuth } from '../context/AuthContext';
 import AuthBackground from './AuthBackground';
+import logo from '../assets/brand/logo_white.png';
 
-interface LoginPageProps {
-  onLoginSuccess: (user: AuthUser) => void;
-}
-
-export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
+export default function LoginPage() {
+  const { login } = useAuth();
   const [pin, setPin] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,8 +16,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
     setLoading(true);
 
     try {
-      const user = await login(pin);
-      onLoginSuccess(user);
+      await login(pin);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Přihlášení se nezdařilo.');
       setPin('');
@@ -33,17 +30,18 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
       <form
         onSubmit={handleSubmit}
         style={{
-          background: 'var(--bg-card)',
-          border: '0.5px solid var(--border-subtle)',
+          background: 'var(--card)',
+          border: '0.5px solid var(--border)',
           borderRadius: '10px',
-          padding: '28px 22px',
-          width: '220px',
+          padding: '36px 30px',
+          width: '280px',
           textAlign: 'center',
         }}
       >
-        <p style={{ fontSize: '14px', fontWeight: 500, margin: '0 0 16px' }}>
-          smart-stock
-        </p>
+        <img
+          src={logo}
+          alt="smart Stock"
+          style={{ width: '160px', display: 'block', margin: '0 auto 20px'}}></img>
 
         <input
           type="password"
@@ -59,9 +57,9 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
             letterSpacing: '6px',
             fontSize: '16px',
             marginBottom: '10px',
-            background: 'var(--bg-page)',
-            color: 'var(--text-primary)',
-            border: '1px solid var(--border-input)',
+            background: 'var(--background)',
+            color: 'var(--foreground)',
+            border: '1px solid var(--input)',
             borderRadius: '6px',
             padding: '8px 0',
           }}
@@ -72,7 +70,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
           disabled={loading || pin.length !== 5}
           style={{
             width: '100%',
-            background: 'var(--accent)',
+            background: 'var(--primary)',
             color: '#fff',
             border: 'none',
             borderRadius: '6px',
@@ -85,7 +83,7 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
         </button>
 
         {error && (
-          <p style={{ fontSize: '12px', color: 'var(--danger)', marginTop: '10px' }}>
+          <p style={{ fontSize: '12px', color: 'var(--destructive)', marginTop: '10px' }}>
             {error}
           </p>
         )}

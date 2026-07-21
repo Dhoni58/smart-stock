@@ -1,14 +1,38 @@
 :root {
-  --bg-page: #1c1e20;
-  --bg-card: #26282b;
-  --border-subtle: #3a3d40;
-  --border-input: #4a4d50;
-  --accent: #0f6e56;
-  --accent-icon: #5dcaa5;
-  --text-primary: #e1f5ee;
-  --text-secondary: #9aa0a0;
-  --danger: #f09595;
-  --grid-line: #1d9e75;
+  --background: #121110;
+  --foreground: #EEEAE3;
+  --card: #1D1B1A;
+  --card-foreground: #EEEAE3;
+  --popover: #1D1B1A;
+  --popover-foreground: #EEEAE3;
+  --primary: #0F6E56;
+  --primary-foreground: #f2f7f4;
+  --secondary: #2A2826;
+  --secondary-foreground: #EEEAE3;
+  --muted: #2A2826;
+  --muted-foreground: #A29B90;
+  --accent: #5dcaa5;
+  --accent-foreground: #0B0B0F;
+  --border: #383532;
+  --input: #383532;
+  --ring: #0f6e56;
+  --destructive: #E5484D;
+  --destructive-foreground: #FFFFFF;
+  --chart-1: #C9A77C;
+  --chart-2: #90A89A;
+  --chart-3: #C2C97C;
+  --chart-4: #91A890;
+  --chart-5: #C97C84;
+  --sidebar: #0D0C0B;
+  --sidebar-foreground: #f2f7f4;
+  --sidebar-primary: #0f6e56;
+  --sidebar-primary-foreground: #0B0B0F;
+  --sidebar-accent: #2A2826;
+  --sidebar-accent-foreground: #EEEAE3;
+  --sidebar-border: #32302D;
+  --sidebar-ring: #0f6e56;
+  --brand: #0f6e56;
+  --brand-dark: #0b5643;
 }
 
 * {
@@ -17,7 +41,7 @@
 
 body {
   margin: 0;
-  background: var(--bg-page);
-  color: var(--text-primary);
+  background: var(--background);
+  color: var(--foreground);
   font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
